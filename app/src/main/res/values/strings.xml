@@ -7,4 +7,8 @@
     <string name="strike_count_value">0</string>
     <string name="ball_count_value">0</string>
     <string name="out_label">Out:</string>
+    <string name="reset_button_action">Reset</string>
+    <string name="about_string">About</string>
+    <string name="about_activity_string">Umpire Buddy by Michelle Gardner</string>
+    <string name="saved_out_count">saved_out_count</string>
 </resources>

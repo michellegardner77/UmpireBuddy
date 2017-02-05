@@ -6,10 +6,15 @@
 package com.mgard.umpirebuddy;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,12 +61,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         updateBallCount();
 
-        // TODO: check if there is a storage value before setting to 0. need method to set out_count
+        // call method to get potential saved out count
+        getSharedPrefOutCount();
+
+        // update out count
         updateOutCount();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    // this will inflate the option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    // Handles menu item button clicks
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        // handling reset menu item click
+        if(id == R.id.action_reset){
+            resetOutCount();
+            resetStrikeBallCounts();
+            return true;
+        }
+
+        if(id == R.id.action_about) {
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // Method used to set the StrikeCount to the strike_count global variable
@@ -80,10 +117,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateOutCount() {
-        TextView outCountValue = (TextView) findViewById(R.id.ball_count_value);
+        TextView outCountValue = (TextView) findViewById(R.id.out_count_value);
         outCountValue.setText(Integer.toString(out_count));
 
-        // TODO: save to storage
+        // updating shared pref out count
+        setSharedPrefOutCount();
+    }
+
+    // gets the shared preference out_count_value also sets to 0 if nonexistent
+    private void getSharedPrefOutCount(){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int defaultValue = getResources().getInteger(R.integer.out_count_default);
+        out_count = sharedPref.getInt(getString(R.string.saved_out_count), defaultValue);
+    }
+
+    private void setSharedPrefOutCount(){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getString(R.string.saved_out_count), out_count);
+        editor.apply();
     }
 
     // method to reset the counts of strike and ball
@@ -99,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         out_count = 0;
         updateOutCount();
 
-        // TODO: clear storage value
+        // set the out count shared preference to zero
+        setSharedPrefOutCount();
     }
 
 
@@ -120,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             resetStrikeBallCounts();
                             out_count++;
                             updateOutCount();
+
                         }
                     });
                     builder.show();

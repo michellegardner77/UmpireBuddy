@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView2"
+        android:id="@+id/ball_count_value"
         android:text="@string/ball_count_value"
         android:layout_alignTop="@+id/ball_label"
         android:layout_toEndOf="@+id/ball_label"
@@ -59,12 +60,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/ball_count_value"
+        android:id="@+id/out_count_value"
         android:text="@string/ball_count_value"
         android:textSize="36sp"
         android:textColor="#ffffff"
         android:layout_alignTop="@+id/out_lable"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_alignStart="@+id/ball_count_value" />
 
     <TextView
         android:layout_width="wrap_content"
