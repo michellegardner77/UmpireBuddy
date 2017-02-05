@@ -6,4 +6,5 @@
     <string name="ball_button_label">Ball</string>
     <string name="strike_count_value">0</string>
     <string name="ball_count_value">0</string>
+    <string name="out_label">Out:</string>
 </resources>
